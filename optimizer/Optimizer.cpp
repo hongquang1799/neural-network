@@ -1,6 +1,6 @@
 #include "neural-network/optimizer/Optimizer.h"
 
-void mc::SGD::Optimize(Matrix& dE2W, Matrix& W, Matrix& dE2B, Matrix& B)
+void mc::opt::SGD::Optimize(Matrix& dE2W, Matrix& W, Matrix& dE2B, Matrix& B)
 {
 	for (int i = 0; i < W.n_row; i++)
 	{
@@ -11,4 +11,14 @@ void mc::SGD::Optimize(Matrix& dE2W, Matrix& W, Matrix& dE2B, Matrix& B)
 
 		B(i) -= dE2B(i) * learning_rate;
 	}
+}
+
+void mc::opt::Momentum::Optimize(Matrix& dE2W, Matrix& W, Matrix& dE2B, Matrix& B)
+{
+
+}
+
+void mc::opt::Adam::Optimize(Matrix& dE2W, Matrix& W, Matrix& dE2B, Matrix& B)
+{
+
 }

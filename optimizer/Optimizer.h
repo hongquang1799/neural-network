@@ -6,27 +6,48 @@
 
 namespace mc
 {
-	class Optimizer
+	namespace opt
 	{
-	public:
-		Optimizer() {}
-		virtual ~Optimizer() {}
+		class Optimizer
+		{
+		public:
+			Optimizer() {}
+			virtual ~Optimizer() {}
 
-		virtual void Optimize(Matrix& dE2W, Matrix& W, Matrix& dE2B, Matrix& B) = 0;
+			virtual void Optimize(Matrix& dE2W, Matrix& W, Matrix& dE2B, Matrix& B) = 0;
 
-		void Log() {}
+			void Log() {}
 
-		float learning_rate;
-	};
+			float learning_rate;
+		};
 
-	class SGD : public Optimizer
-	{
-	public:
-		SGD() {}
-		virtual ~SGD() {}
+		class SGD : public Optimizer
+		{
+		public:
+			SGD() {}
+			virtual ~SGD() {}
 
-		void Optimize(Matrix& dE2W, Matrix& W, Matrix& dE2B, Matrix& B);
-	};
+			virtual void Optimize(Matrix& dE2W, Matrix& W, Matrix& dE2B, Matrix& B);
+		};
+
+		class Momentum : public Optimizer
+		{
+		public:
+			Momentum() {}
+			virtual ~Momentum() {}
+
+			virtual void Optimize(Matrix& dE2W, Matrix& W, Matrix& dE2B, Matrix& B);;
+		};
+
+		class Adam : public Optimizer
+		{
+		public:
+			Adam() {}
+			virtual ~Adam() {}
+
+			virtual void Optimize(Matrix& dE2W, Matrix& W, Matrix& dE2B, Matrix& B);
+		};
+	}
 }
 
 #endif

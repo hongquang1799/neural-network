@@ -40,6 +40,16 @@ namespace mc
 		Matrix& backward(Matrix& dE2A, Matrix& dE2S, Matrix& S, Matrix& A) override;
 	};
 
+	class Tanh : AtvtFunc
+	{
+	public:
+		Tanh() {}
+		virtual ~Tanh() {}
+
+		Matrix& forward(Matrix& S, Matrix& A) override;
+		Matrix& backward(Matrix& dE2A, Matrix& dE2S, Matrix& S, Matrix& A) override;
+	};
+
 	class Softmax : public AtvtFunc
 	{
 	public:

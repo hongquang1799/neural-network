@@ -27,8 +27,7 @@ mc::Matrix& mc::Matrix::allocateMemory(size_t row, size_t col)
 
 	data = std::shared_ptr<float>(new float[row * col],
 		[&](float* ptr)
-	{
-		//DEBUG_LOG("Free matrix memory\n");	
+	{		
 		delete[] ptr;
 	});
 
@@ -43,15 +42,9 @@ void mc::Matrix::set(float value)
 	}
 }
 
-void mc::Matrix::set(const std::vector<std::vector<float>>& data)
+void mc::Matrix::set(const float * arr)
 {
-	for (int i = 0; i < n_row; i++)
-	{
-		for (int j = 0; j < n_col; j++)
-		{
-			(*this)(i, j) = data[i][j];
-		}
-	}
+	memcpy(data.get(), arr, sizeof(float) * n_row * n_col);
 }
 
 void mc::Matrix::randomize(float min, float max)

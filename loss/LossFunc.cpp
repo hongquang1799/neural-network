@@ -2,17 +2,27 @@
 
 using namespace mc;
 
-mc::LossFunc::LossFunc()
+mc::loss::LossFunc::LossFunc()
 {
 
 }
 
-mc::LossFunc::~LossFunc()
+mc::loss::LossFunc::~LossFunc()
 {
 
 }
 
-Matrix mc::MeanSquarredError::Get(Matrix& predict, Matrix& target)
+mc::loss::MeanSquarredError::MeanSquarredError()
+{
+
+}
+
+mc::loss::MeanSquarredError::~MeanSquarredError()
+{
+
+}
+
+Matrix mc::loss::MeanSquarredError::Get(Matrix& predict, Matrix& target)
 {
 	Matrix E = Matrix(predict.n_row, predict.n_col);
 	for (int j = 0; j < E.n_col; j++)
@@ -24,7 +34,7 @@ Matrix mc::MeanSquarredError::Get(Matrix& predict, Matrix& target)
 	return E;
 }
 
-Matrix mc::MeanSquarredError::Gradient(Matrix& predict, Matrix& target)
+Matrix mc::loss::MeanSquarredError::Gradient(Matrix& predict, Matrix& target)
 {
 	Matrix dE = Matrix(predict.n_row, predict.n_col);
 	for (int j = 0; j < dE.n_col; j++)
@@ -34,4 +44,24 @@ Matrix mc::MeanSquarredError::Gradient(Matrix& predict, Matrix& target)
 	}
 
 	return dE;
+}
+
+mc::loss::CrossEntropy::CrossEntropy()
+{
+
+}
+
+mc::loss::CrossEntropy::~CrossEntropy()
+{
+
+}
+
+Matrix mc::loss::CrossEntropy::Get(Matrix& predict, Matrix& target)
+{
+	return predict;
+}
+
+Matrix mc::loss::CrossEntropy::Gradient(Matrix& predict, Matrix& target)
+{
+	return predict;
 }

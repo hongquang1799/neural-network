@@ -1,31 +1,43 @@
 #ifndef LOSS_FUNC_H
 #define LOSS_FUNC_H
 
-#include "neural-network/loss/LossFunc.h"
 #include "neural-network/matrix/Matrix.h"
 
 namespace mc
 {
-	class LossFunc 
+	namespace loss
 	{
-	public:
-		LossFunc();
-		virtual ~LossFunc();
+		class LossFunc
+		{
+		public:
+			LossFunc();
+			virtual ~LossFunc();
 
-		virtual Matrix Get(Matrix& predict, Matrix& target) = 0;
-		virtual Matrix Gradient(Matrix& predict, Matrix& target) = 0;
-	private:
-	};
+			virtual Matrix Get(Matrix& predict, Matrix& target) = 0;
+			virtual Matrix Gradient(Matrix& predict, Matrix& target) = 0;
+		private:
+		};
 
-	class MeanSquarredError : public LossFunc
-	{
-	public:
-		MeanSquarredError() {}
-		virtual ~MeanSquarredError() {}
+		class MeanSquarredError : public LossFunc
+		{
+		public:
+			MeanSquarredError();
+			virtual ~MeanSquarredError();
 
-		Matrix Get(Matrix& predict, Matrix& target) override;
-		Matrix Gradient(Matrix& predict, Matrix& target) override;
-	};
+			Matrix Get(Matrix& predict, Matrix& target) override;
+			Matrix Gradient(Matrix& predict, Matrix& target) override;
+		};
+
+		class CrossEntropy : public LossFunc
+		{
+		public:
+			CrossEntropy();
+			virtual ~CrossEntropy();
+
+			virtual Matrix Get(Matrix& predict, Matrix& target);
+			virtual Matrix Gradient(Matrix& predict, Matrix& target);
+		};
+	}
 }
 
 #endif

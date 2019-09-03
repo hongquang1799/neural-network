@@ -7,6 +7,9 @@
 
 namespace mc
 {
+	namespace opt { class Optimizer; }
+	namespace loss { class LossFunc; }
+
 	class FNN // feed-forward neural network
 	{
 	public:
@@ -15,7 +18,7 @@ namespace mc
 
 		void SetInputUnit(size_t unit);
 		class Dense * AddDense(size_t unit, const std::string& activation);
-		class Dense * AddDense(size_t unit, const std::string& activation, const std::vector<std::vector<float>>& W, const std::vector<std::vector<float>>& B);
+		class Dense * AddDense(size_t unit, const std::string& activation, const float weights[], const float biases[]);
 		void SetLoss(const std::string& loss);
 		void SetOptimizer(const std::string& optimize, float learning_rate);
 
@@ -28,9 +31,9 @@ namespace mc
 
 		std::vector<class Dense*> listOfDenses;
 
-		std::shared_ptr<class LossFunc> lossFunc;
+		std::shared_ptr<loss::LossFunc> lossFunc;
 
-		std::shared_ptr<class Optimizer> optimizer;
+		std::shared_ptr<opt::Optimizer> optimizer;
 	};
 }
 

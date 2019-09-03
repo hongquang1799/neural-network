@@ -5,6 +5,8 @@
 #include "neural-network/optimizer/Optimizer.h"
 
 using namespace mc;
+using namespace mc::opt;
+using namespace mc::loss;
 
 mc::FNN::FNN()
 {
@@ -81,11 +83,11 @@ Dense * mc::FNN::AddDense(size_t unit, const std::string& activation)
 	return dense;
 }
 
-class Dense * mc::FNN::AddDense(size_t unit, const std::string& activation, const std::vector<std::vector<float>>& W, const std::vector<std::vector<float>>& B)
+class Dense * mc::FNN::AddDense(size_t unit, const std::string& activation, const float weights[], const float biases[])
 {
 	Dense * dense = AddDense(unit, activation);
-	dense->W.set(W);
-	dense->B.set(B);
+	dense->W.set(weights);
+	dense->B.set(biases);
 
 	return dense;
 }
@@ -103,6 +105,14 @@ void mc::FNN::SetOptimizer(const std::string& optimize, float learning_rate)
 	if (optimize == "SGD")
 	{
 		optimizer = std::shared_ptr<Optimizer>(new SGD());
+	}
+	else if (optimize == "Momentum")
+	{
+		optimizer = std::shared_ptr<Momentum>(new Momentum());
+	}
+	else if (optimize == "Adam")
+	{
+		optimizer = std::shared_ptr<Adam>(new Adam());
 	}
 
 	optimizer->learning_rate = learning_rate;

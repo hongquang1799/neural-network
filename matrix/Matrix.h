@@ -27,7 +27,7 @@ namespace mc
 
 		void set(float value);
 
-		void set(const std::vector<std::vector<float>>& data);
+		void set(const float * arr);
 
 		void randomize(float min, float max);
 
