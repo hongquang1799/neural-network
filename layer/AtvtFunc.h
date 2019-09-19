@@ -23,7 +23,7 @@ namespace mc
 	class Sigmoid : public AtvtFunc
 	{
 	public:
-		Sigmoid() {}
+		Sigmoid() { name = "Sigmoid"; }
 		virtual ~Sigmoid() {}
 
 		Matrix& forward(Matrix& S, Matrix& A) override;
@@ -33,7 +33,7 @@ namespace mc
 	class ReLU : public AtvtFunc
 	{
 	public:
-		ReLU() {}
+		ReLU() { name = "ReLU"; }
 		virtual ~ReLU() {}
 
 		Matrix& forward(Matrix& S, Matrix& A) override;
@@ -43,7 +43,7 @@ namespace mc
 	class Tanh : AtvtFunc
 	{
 	public:
-		Tanh() {}
+		Tanh() { name = "Tanh"; }
 		virtual ~Tanh() {}
 
 		Matrix& forward(Matrix& S, Matrix& A) override;

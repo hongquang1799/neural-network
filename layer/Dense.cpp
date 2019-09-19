@@ -74,3 +74,13 @@ Matrix& mc::Dense::Backward(Matrix& dE2A)
 
 	return dE2A;
 }
+
+Matrix mc::Dense::GetWeights() const
+{
+	return W;
+}
+
+Matrix mc::Dense::GetBiases() const
+{
+	return B;
+}

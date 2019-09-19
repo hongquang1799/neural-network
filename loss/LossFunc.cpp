@@ -2,25 +2,6 @@
 
 using namespace mc;
 
-mc::loss::LossFunc::LossFunc()
-{
-
-}
-
-mc::loss::LossFunc::~LossFunc()
-{
-
-}
-
-mc::loss::MeanSquarredError::MeanSquarredError()
-{
-
-}
-
-mc::loss::MeanSquarredError::~MeanSquarredError()
-{
-
-}
 
 Matrix mc::loss::MeanSquarredError::Get(Matrix& predict, Matrix& target)
 {
@@ -44,16 +25,6 @@ Matrix mc::loss::MeanSquarredError::Gradient(Matrix& predict, Matrix& target)
 	}
 
 	return dE;
-}
-
-mc::loss::CrossEntropy::CrossEntropy()
-{
-
-}
-
-mc::loss::CrossEntropy::~CrossEntropy()
-{
-
 }
 
 Matrix mc::loss::CrossEntropy::Get(Matrix& predict, Matrix& target)

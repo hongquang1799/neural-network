@@ -19,12 +19,14 @@ namespace mc
 			void Log() {}
 
 			float learning_rate;
+
+			std::string name;
 		};
 
 		class SGD : public Optimizer
 		{
 		public:
-			SGD() {}
+			SGD() { name = "SGD"; }
 			virtual ~SGD() {}
 
 			virtual void Optimize(Matrix& dE2W, Matrix& W, Matrix& dE2B, Matrix& B);
@@ -33,7 +35,7 @@ namespace mc
 		class Momentum : public Optimizer
 		{
 		public:
-			Momentum() {}
+			Momentum() { name = "Momentum"; }
 			virtual ~Momentum() {}
 
 			virtual void Optimize(Matrix& dE2W, Matrix& W, Matrix& dE2B, Matrix& B);;
@@ -42,7 +44,7 @@ namespace mc
 		class Adam : public Optimizer
 		{
 		public:
-			Adam() {}
+			Adam() { name = "Adam"; }
 			virtual ~Adam() {}
 
 			virtual void Optimize(Matrix& dE2W, Matrix& W, Matrix& dE2B, Matrix& B);

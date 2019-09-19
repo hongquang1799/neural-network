@@ -47,6 +47,18 @@ void mc::Matrix::set(const float * arr)
 	memcpy(data.get(), arr, sizeof(float) * n_row * n_col);
 }
 
+void mc::Matrix::set(const std::initializer_list<std::initializer_list<float>>& list)
+{
+	size_t i = 0;
+	for (auto& row_elements : list)
+	{
+		for (auto& value : row_elements)
+		{
+			(*this)(i++) = value;
+		}
+	}
+}
+
 void mc::Matrix::randomize(float min, float max)
 {
 	for (int i = n_row * n_col - 1; i >= 0; i--)

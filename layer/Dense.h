@@ -15,6 +15,9 @@ namespace mc
 		Matrix& Forward(Matrix& A);
 		Matrix& Backward(Matrix& dE2A);
 
+		Matrix GetWeights() const;
+		Matrix GetBiases() const;
+
 		void Log();
 
 		size_t n_row;

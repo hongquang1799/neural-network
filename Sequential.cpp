@@ -1,4 +1,4 @@
-#include "neural-network/FNN.h"
+#include "neural-network/Sequential.h"
 #include "neural-network/layer/Dense.h"
 #include "neural-network/layer/AtvtFunc.h"
 #include "neural-network/loss/LossFunc.h"
@@ -8,19 +8,24 @@ using namespace mc;
 using namespace mc::opt;
 using namespace mc::loss;
 
-mc::FNN::FNN()
+mc::Sequential::Sequential() : 
+	lossFunc(NULL),
+	optimizer(NULL)
 {
 }
 
-mc::FNN::~FNN()
+mc::Sequential::~Sequential()
 {
 	for (auto dense : listOfDenses)
 	{
 		delete dense;
 	}
+
+	delete lossFunc;
+	delete optimizer;
 }
 
-Matrix mc::FNN::Predict(Matrix& input)
+Matrix mc::Sequential::Predict(Matrix& input)
 {
 	Matrix A_in = input;
 	for (auto dense : listOfDenses)
@@ -31,7 +36,7 @@ Matrix mc::FNN::Predict(Matrix& input)
 	return A_in;
 }
 
-void mc::FNN::Train(Matrix& input, Matrix& target)
+void mc::Sequential::Train(Matrix& input, Matrix& target)
 {
 	Matrix predict = Predict(input);
 	Matrix dE = lossFunc->Gradient(predict, target);
@@ -51,18 +56,18 @@ void mc::FNN::Train(Matrix& input, Matrix& target)
 	}
 }
 
-void mc::FNN::SetInputUnit(size_t unit)
+void mc::Sequential::SetInputUnit(size_t unit)
 {
 	inputUnit = unit;
 }
 
-Dense * mc::FNN::AddDense(size_t unit, const std::string& activation)
+Dense * mc::Sequential::AddDense(size_t unit, const std::string& activation)
 {
 	Dense * dense = NULL;
 
 	if (listOfDenses.size() == 0)
 	{
-		dense = new Dense(unit, inputUnit);	
+		dense = new Dense(unit, inputUnit);
 		listOfDenses.push_back(dense);
 	}
 	else
@@ -70,61 +75,69 @@ Dense * mc::FNN::AddDense(size_t unit, const std::string& activation)
 		dense = new Dense(unit, listOfDenses.back()->n_row);
 		listOfDenses.push_back(dense);
 	}
-	
-	if (activation == "Sigmoid")
+
+	if (activation == "sigmoid")
+	{
 		dense->atvt = new Sigmoid();
-	else if (activation == "Relu")
+	}
+	else if (activation == "relu")
+	{
 		dense->atvt = new ReLU();
-	else if (activation == "Softmax")
+	}
+	else if (activation == "softmax")
+	{
 		dense->atvt = new Softmax();
+	}
 
 	dense->atvt->name = activation;
 
 	return dense;
 }
 
-class Dense * mc::FNN::AddDense(size_t unit, const std::string& activation, const float weights[], const float biases[])
+Dense * mc::Sequential::GetDense(size_t index)
 {
-	Dense * dense = AddDense(unit, activation);
-	dense->W.set(weights);
-	dense->B.set(biases);
-
-	return dense;
+	return listOfDenses.at(index);
 }
 
-void mc::FNN::SetLoss(const std::string& loss)
+void mc::Sequential::SetLoss(const std::string& loss)
 {
-	if (loss == "MeanSquarredError")
+	if (loss == "meanSquaredError")
 	{
-		lossFunc = std::shared_ptr<LossFunc>(new MeanSquarredError());
+		lossFunc = new MeanSquarredError();
+	}
+	else if (loss == "crossEntropy")
+	{
+		lossFunc = new CrossEntropy();
 	}
 }
 
-void mc::FNN::SetOptimizer(const std::string& optimize, float learning_rate)
+void mc::Sequential::SetOptimizer(const std::string& optimize, float learning_rate)
 {
-	if (optimize == "SGD")
+	if (optimize == "sgd")
 	{
-		optimizer = std::shared_ptr<Optimizer>(new SGD());
+		optimizer = new SGD();
 	}
-	else if (optimize == "Momentum")
+	else if (optimize == "momentum")
 	{
-		optimizer = std::shared_ptr<Momentum>(new Momentum());
+		optimizer = new Momentum();
 	}
-	else if (optimize == "Adam")
+	else if (optimize == "adam")
 	{
-		optimizer = std::shared_ptr<Adam>(new Adam());
+		optimizer = new Adam();
 	}
 
 	optimizer->learning_rate = learning_rate;
 }
 
-void mc::FNN::Log()
+void mc::Sequential::Log()
 {
 	DEBUG_LOG("Input Unit: %d\n", inputUnit);
 	for (auto dense : listOfDenses)
 	{
 		dense->Log();
 	}
+
+
 }
 
 

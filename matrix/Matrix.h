@@ -29,6 +29,8 @@ namespace mc
 
 		void set(const float * arr);
 
+		void set(const std::initializer_list<std::initializer_list<float>>& list);
+
 		void randomize(float min, float max);
 
 		float& operator()(size_t r, size_t c) const;

@@ -10,19 +10,22 @@ namespace mc
 		class LossFunc
 		{
 		public:
-			LossFunc();
-			virtual ~LossFunc();
+			LossFunc() {}
+			virtual ~LossFunc() {}
 
 			virtual Matrix Get(Matrix& predict, Matrix& target) = 0;
 			virtual Matrix Gradient(Matrix& predict, Matrix& target) = 0;
+
+			std::string name;
 		private:
+
 		};
 
 		class MeanSquarredError : public LossFunc
 		{
 		public:
-			MeanSquarredError();
-			virtual ~MeanSquarredError();
+			MeanSquarredError() { name = "MeanSquaredError"; }
+			virtual ~MeanSquarredError() {}
 
 			Matrix Get(Matrix& predict, Matrix& target) override;
 			Matrix Gradient(Matrix& predict, Matrix& target) override;
@@ -31,8 +34,8 @@ namespace mc
 		class CrossEntropy : public LossFunc
 		{
 		public:
-			CrossEntropy();
-			virtual ~CrossEntropy();
+			CrossEntropy() { name = "CrossEntropy"; }
+			virtual ~CrossEntropy() {}
 
 			virtual Matrix Get(Matrix& predict, Matrix& target);
 			virtual Matrix Gradient(Matrix& predict, Matrix& target);
